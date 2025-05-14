@@ -4,7 +4,8 @@
       v-for="todo in $store.state.todos" 
         :key="todo.id"
         :todo="todo"
-      />
+      @showOrHideMessage="$emit('showOrHideMessage', $event)"
+    />
   </div>
 </template>
 
@@ -15,6 +16,7 @@
     name: 'TodoItems',
     components: {
       TodoItem
-    }
+    },
+    emits: ['showOrHideMessage']
   }
 </script>

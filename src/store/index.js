@@ -49,12 +49,12 @@ const Store = createStore({
 
     // Editando uma tarefa e ataulizando o state
     updateTodo({ commit }, { id, data }) {
-      return axios.put(`http://localhost:3000/todos/${id}`, data).then((response) => {
+      return axios.put(`http://localhost:3000/todos/${id}`, data).then((response) => {        
         commit('storeNewTodo', response.data)
       })
     },
 
-    //
+    // Deletando uma tarefa
     deleteTodo({ commit }, id) {
       return axios.delete(`http://localhost:3000/todos/${id}`).then(() => {
         commit('deleteTodo', id)

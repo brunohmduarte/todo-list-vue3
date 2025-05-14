@@ -17,6 +17,7 @@
 <script>
   export default {
     name: 'TodoFormAdd',
+    emits: ['showOrHideMessage'],
     data() {
       return {
         title: ''
@@ -29,13 +30,19 @@
           return
         }
 
-        // Adicionando uma nova tarefa
-        this.$store.dispatch('addTodo', {
+        // Preparando os dados
+        const data = {
           title: this.title,
           completed: false
-        }).finally(() => {
-          // Limpar o input
-          this.title = ''
+        }
+
+        // Adicionando uma nova tarefa
+        this.$store.dispatch('addTodo', data).finally(() => {
+            // Limpar o input
+            this.title = ''
+            
+            // Emite uma ação para o componente pai para mostrar uma mensagem
+            this.$emit('showOrHideMessage', 'Tarefa adicionada com sucesso!')            
         })        
       }
     }

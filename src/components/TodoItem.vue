@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-300 rounded-sm">
     <div class="flex items-center px-4 py-3 border-b border-gray-400 last:border-b-0">
-      <div class="flex items-center justify-center mr-2">
+      <div class="flex items-center justify-center mr-2 ">
         <button 
           :class="{
             'text-green-600': isCompleted,
@@ -28,7 +28,7 @@
       <div class="ml-auto flex items-center justify-center">
         <button 
           class="focus:outline-none"
-          @click="deleteTodo"
+          @click="prepareDeleteRecord"
         >
           <svg
             class="ml-3 h-4 w-4 text-gray-500"
@@ -59,16 +59,19 @@
         required: () => ({})
       }
     },
+    emits: ['showOrHideMessage'],
     data() {
       return {
         title: this.todo.title,
-        isCompleted: this.todo.completed
+        isCompleted: this.todo.completed,
+        actionMessage: ''
       }
     },
     methods: {
       // Preparar a atualização da tarefa
       prepareTitleUpdate() {
         if (this.checkTitle()) {
+          this.actionMessage = 'Tarefa atualizada com sucesso!'
           this.updateTodo()
         }
       },
@@ -77,8 +80,16 @@
       prepareStateUpdate() {
         if (this.checkTitle()) {
           this.isCompleted = !this.isCompleted
+          this.actionMessage = 'Estado da tarefa foi atualizado com sucesso!'
           this.updateTodo()
         }
+      },
+      
+      //
+      prepareDeleteRecord() {
+        this.actionMessage = 'Tarefa removida com sucesso!'
+        console.log('DEBUG 1', this.actionMessage);
+        this.deleteTodo()
       },
 
       // Verifica se o input está vazio
@@ -95,12 +106,17 @@
             title: this.title,
             completed: this.isCompleted
           }
-        })        
+        }).finally(() => {
+          this.$emit('showOrHideMessage', this.actionMessage)
+        })
       },
 
       // Deletando a tarefa
-      deleteTodo() {
-        this.$store.dispatch('deleteTodo', this.todo.id)
+      deleteTodo() {      
+        this.$store.dispatch('deleteTodo', this.todo.id).finally(() => {
+          console.log('DEBUG 2', this.actionMessage);
+          this.$emit('showOrHideMessage', this.actionMessage)
+        })
       }
     }
   }

@@ -1,14 +1,3 @@
 {
-  "todos": [
-    {
-      "title": "Estudar Vue.js 3",
-      "completed": false,
-      "id": "e7e0"
-    },
-    {
-      "title": "Estudar Javascript ECS2015",
-      "completed": false,
-      "id": "41b8"
-    }
-  ]
+  "todos": []
 }
